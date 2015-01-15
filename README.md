@@ -19,6 +19,10 @@ MountDrive.bat
 --------------
 Script mounts local/remote folder/drive as disk and assigns a label to it. Requires DiskRen.js
 
+NetDriveRemove.bat
+------------------
+Interactive script that lists all LAN connection (net drives) and allows to delete them.
+Useful to eliminate "multiple connections with different credentials" problem.
 
 
 You can always find more usage details inside the script
