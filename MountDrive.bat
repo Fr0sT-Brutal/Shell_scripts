@@ -18,5 +18,6 @@ NET USE %1 %2 %4 "/USER:%~3" /PERSISTENT:NO
 IF ERRORLEVEL 1 (
 	PAUSE
 ) ELSE (
+	ECHO %2 mounted to %1:
 	CALL cscript.exe "%CDir%\DiskRen.js" %1 %5 > NUL
 )
