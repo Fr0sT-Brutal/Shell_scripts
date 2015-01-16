@@ -42,13 +42,30 @@ if .%Num%.==.. goto :EOF
 ::   OK    V:    \\serv_name\...    => delete command will be "net use V: /delete"
 ::   OK          \\serv_name\...    => delete command will be "net use \\serv_name\... /delete"
 :: so we always take 2nd token
+:: To support addresses with spaces we transform output to parseable form by eliminating 
+:: alignment spaces ("  " => "/", "/ " => "/"; "/" is the char that won't ever appear in initial 
+:: line). This method assumes that remote folder name won't contain 2 spaces.
 
 set Cnt=0
 
-for /f "tokens=2" %%s in ('net use ^| findstr "\\"') do (
+for /f "tokens=*" %%s in ('net use ^| findstr "\\"') do (
 	set /a Cnt=!Cnt!+1
 	if !Cnt!==!Num! (
-		net use %%s /delete
+		set Line=%%s
+		set Line=!Line:  =/!
+		:: Eliminate odd delimiter spaces 
+		set Line=!Line:/ =/!
+		:: Extract address
+		for /f "delims=/ tokens=2" %%A in ("!Line!") do (
+			set Addr=%%A
+		)
+		:: Trim trailing space by adding a marker and removing the pair
+		:: This is actual for LAN addresses only
+		set Addr=!Addr!/
+		set Addr=!Addr: /=/!
+		set Addr=!Addr:/=!
+				
+		net use "!Addr!" /delete
 	)
 )
 
