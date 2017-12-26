@@ -12,7 +12,7 @@
 ' a launched app will have %Windows%\System32 as current dir.
 
 If WScript.Arguments.Count = 0 Then
-    WScript.Quit
+    WScript.Quit 1
 End if
 
 Const ch_Quote = """"
@@ -34,6 +34,6 @@ Next
 App = WScript.Arguments.Item(0)
 
 'Uncomment this line if you'll need to debug
-MsgBox("App: " & App & vbNewLine & "Args: " & Args)
+'MsgBox("App: " & App & vbNewLine & "Args: " & Args)
 
 shApp.ShellExecute App, Args, "", "runas", 1
